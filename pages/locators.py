@@ -1,5 +1,12 @@
 from selenium.webdriver.common.by import By
 
 
+class BasePageLocators:
+    SEARCH_FIELD = (By.ID, "search_query_top")
+    SHOPPING_CART = (By.CLASS_NAME, 'shopping_cart')
+    LOGO = (By.CSS_SELECTOR, 'img.logo.img-responsive')
+
+
 class HomePageLocators:
     BANNER = (By.ID, "homeslider")
+

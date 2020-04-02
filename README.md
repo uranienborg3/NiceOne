@@ -1,2 +1,5 @@
-# NiceOne: a fancy guest project
-# selenium, pytest, bdd
+#### NiceOne:
+
+a fancy guest project 
+<br>
+selenium, pytest, bdd
