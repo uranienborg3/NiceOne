@@ -37,6 +37,11 @@ class BasePage:
         """Must be implemented in each child class"""
         return
 
+    @property
+    def search(self):
+        from .search import SearchRegion
+        return SearchRegion(self.browser)
+
 
 class InvalidPageException(Exception):
     """This exception is thrown when the page is not found"""

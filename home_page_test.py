@@ -6,3 +6,4 @@ class TestHomePage:
         """"HomePage instance can be created"""
         home_page = HomePage(browser)
         home_page.should_unchangeable_elements_be_present()
+        home_page.search.search_for('t-shirt')
