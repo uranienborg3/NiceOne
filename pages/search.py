@@ -1,8 +1,7 @@
 from .locators import BasePageLocators
 from .locators import SearchResultsLocators
-from .base_page import BasePage
-from .base_page import InvalidPageException
-# from selenium.common.exceptions import NoSuchElementException
+from .base import BasePage
+from .base import InvalidPageException
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -26,20 +25,16 @@ class SearchResults(BasePage):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        results = WebDriverWait(self.browser, 10, 3).until(ec.visibility_of_all_elements_located
-                                                          (SearchResultsLocators.PRODUCT_LIST), 'Results not found')
+        WebDriverWait(self.browser, 10).until(lambda d: d.execute_script("return document.readyState") == "complete")
+        results = self.browser.find_elements(*SearchResultsLocators.PRODUCT_LIST)
         count = 0
         for product in results:
             name = product.find_element(*SearchResultsLocators.PRODUCT_NAME).text.strip()
             print(name)
-            if name not in self._products.keys():
-                self._products[name] = product.find_element(*SearchResultsLocators.PRODUCT_LINK)
-            else:
-                self._products[name + ' ' + str(count)] = product.find_element(*SearchResultsLocators.PRODUCT_LINK)
-            self._product_count += 1
             count += 1
-        print(len(self._products))
-        print(self._product_count)
+            name = str(count) + ' ' + name
+            self._products[name] = product.find_element(*SearchResultsLocators.PRODUCT_LINK)
+            self._product_count += 1
         print(self._products.keys())
 
     def _validate_page(self):
@@ -50,3 +45,6 @@ class SearchResults(BasePage):
     @property
     def product_count(self):
         return self._product_count
+
+    def compare_actual_count_with_expected(self, expected_count):
+        assert self._product_count == expected_count, "Actual and expected counts do not match"

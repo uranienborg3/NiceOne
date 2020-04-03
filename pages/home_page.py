@@ -1,5 +1,5 @@
-from .base_page import BasePage
-from .base_page import InvalidPageException
+from .base import BasePage
+from .base import InvalidPageException
 from .locators import HomePageLocators
 from selenium.common.exceptions import NoSuchElementException
 # from selenium.webdriver.common.by import By
