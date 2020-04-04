@@ -20,7 +20,13 @@ class SearchRegion:
     def submit_empty_search_field(self):
         self.search_field.clear()
         self.search_field.submit()
-        return NoResultsSearch(self.browser)
+        return EmptySearchResult(self.browser)
+
+    def search_for_unavailable_product(self, search_term):
+        self.search_field.clear()
+        self.search_field.send_keys(search_term)
+        self.search_field.submit()
+        return NoResultSearch(self.browser)
 
 
 class SearchBase(BasePage):
@@ -28,9 +34,9 @@ class SearchBase(BasePage):
         super().__init__(*args, **kwargs)
 
     def _validate_page(self):
-        WebDriverWait(self.browser, 5). until(ec.title_contains, 'Search')
+        WebDriverWait(self.browser, 5).until(ec.title_contains, 'Search')
         if 'Search' not in self.browser.title:
-            raise InvalidPageException("Search results not loaded")
+            raise InvalidPageException("Search results not loaded on the page")
 
     def return_to_home_page(self, browser):
         self.click_logo()
@@ -39,13 +45,12 @@ class SearchBase(BasePage):
 
 
 class SearchResults(SearchBase):
-
     _product_count = 0
     _products = {}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        WebDriverWait(self.browser, 10).until(lambda d: d.execute_script("return document.readyState") == "complete")
+        WebDriverWait(self.browser, 10).until(lambda b: b.execute_script("return document.readyState") == "complete")
         results = self.browser.find_elements(*SearchResultsLocators.PRODUCT_LIST)
         assert len(results) > 0, "No results found"
         count = 0
@@ -63,14 +68,26 @@ class SearchResults(SearchBase):
         return self._product_count
 
     def compare_actual_count_with_expected(self, expected_count):
-        assert self._product_count == expected_count, "Actual and expected counts do not match"
+        assert self._product_count == expected_count, "Actual and expected counts of results do not match"
+
+     # TODO: open product method
 
 
-class NoResultsSearch(SearchBase):
+class EmptySearchResult(SearchBase):
     def __init__(self, *args, **kwargs):
-        super(NoResultsSearch, self).__init__(*args, **kwargs)
+        super(EmptySearchResult, self).__init__(*args, **kwargs)
 
     def empty_search_text_should_be_correct(self):
         message = WebDriverWait(self.browser, 10).until(ec.visibility_of_element_located
-                                              (SearchResultsLocators.EMPTY_SEARCH_MESSAGE)).text
-        assert "Please enter a search keyword" == message, "Something went wrong"
+                                                        (SearchResultsLocators.SEARCH_ERROR_MESSAGE)).text
+        assert "Please enter a search keyword" == message, "Empty search alert message text does not match expected"
+
+
+class NoResultSearch(SearchBase):
+    def __init__(self, *args, **kwargs):
+        super(NoResultSearch, self).__init__(*args, **kwargs)
+
+    def no_result_search_text_should_be_correct(self):
+        message = WebDriverWait(self.browser, 10).until(ec.visibility_of_element_located
+                                                        (SearchResultsLocators.SEARCH_ERROR_MESSAGE)).text
+        assert "No results were found for your search" in message, "No search results message is not correct"
