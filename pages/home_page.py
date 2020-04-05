@@ -1,6 +1,7 @@
 from .base import BasePage
 from .base import InvalidPageException
 from .locators import HomePageLocators
+from .locators import ShoppingCartLocators
 from selenium.common.exceptions import NoSuchElementException
 
 
@@ -23,6 +24,10 @@ class HomePage(BasePage):
 
     def _logo_present(self):
         assert self.is_element_present(*HomePageLocators.LOGO), "Logo is not found"
+
+    def shopping_cart_should_be_empty(self):
+        shopping_card_status = self.browser.find_element(*HomePageLocators.SHOPPING_CART_EMPTY).text
+        assert 'empty' in shopping_card_status, 'Shopping cart is not empty'
 
     def _validate_page(self):
         """Implemented abstract method from BasePage to validate home page"""

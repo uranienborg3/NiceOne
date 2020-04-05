@@ -4,7 +4,7 @@ from .locators import HomePageLocators
 
 
 class BasePage:
-    """All pages inherit from this"""
+    """All objects inherit from this"""
 
     def __init__(self, browser, timeout=10):
         self.browser = browser
@@ -27,6 +27,11 @@ class BasePage:
     def search(self):
         from .search import SearchRegion
         return SearchRegion(self.browser)
+
+    @property
+    def shopping_cart(self):
+        from .shopping_cart import ShoppingCartRegion
+        return ShoppingCartRegion(self.browser)
 
     def click_logo(self):
         logo = self.browser.find_element(*HomePageLocators.LOGO)

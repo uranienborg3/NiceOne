@@ -38,10 +38,21 @@ class SearchBase(BasePage):
         if 'Search' not in self.browser.title:
             raise InvalidPageException("Search results not loaded on the page")
 
+    def header_counter_should_show_correct_count(self):
+        assert self.header_counter == 0, "Header counter shows something weird"
+
     def return_to_home_page(self, browser):
         self.click_logo()
         from .home_page import HomePage
         return HomePage(browser)
+
+    @property
+    def header_counter(self):
+        header_counter = self.browser.find_element(*SearchResultsLocators.HEADING_COUNTER).text
+        # print(header_counter)
+        header_counter_list = header_counter.split(' ')
+        # print(header_counter_list)
+        return int(header_counter_list[0])
 
 
 class SearchResults(SearchBase):
@@ -70,7 +81,10 @@ class SearchResults(SearchBase):
     def compare_actual_count_with_expected(self, expected_count):
         assert self._product_count == expected_count, "Actual and expected counts of results do not match"
 
-     # TODO: open product method
+    def header_counter_should_show_correct_count(self):
+        assert self._product_count == self.header_counter, 'Header counter does not show correct result count'
+
+    # TODO: open product method
 
 
 class EmptySearchResult(SearchBase):
