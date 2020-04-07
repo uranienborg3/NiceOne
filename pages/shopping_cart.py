@@ -1,25 +1,12 @@
 from .base import BasePage
 from .base import InvalidPageException
 from .locators import ShoppingCartLocators
-from .locators import HomePageLocators
+from .locators import BreadcrumbsLocators
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 
 
-class ShoppingCartRegion:
-    def __init__(self, browser):
-        self.browser = browser
-        self.shopping_cart = self.browser.find_element(*HomePageLocators.SHOPPING_CART)
-
-    def open(self):
-        return
-
-    def open_empty(self):
-        self.shopping_cart.click()
-        return ShoppingCartEmpty(self.browser)
-
-
-class ShoppingCartBase(BasePage):
+class BaseShoppingCart(BasePage):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -28,13 +15,20 @@ class ShoppingCartBase(BasePage):
         if 'Order' not in self.browser.title:
             raise InvalidPageException('Shopping cart not loaded')
 
+    def should_be_header(self):
+        header = self.browser.find_element(*ShoppingCartLocators.SHOPPING_CART_HEADING).text
+        assert 'SHOPPING-CART SUMMARY' == header, "Something wrong with header"
 
-class ShoppingCart(ShoppingCartBase):
+    def shopping_cart_should_be_in_breadcrumbs(self):
+        self.is_element_present(*BreadcrumbsLocators.SHOPPING_CART_BREADCRUMB)
+
+
+class ShoppingCart(BaseShoppingCart):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
 
-class ShoppingCartEmpty(ShoppingCartBase):
+class EmptyShoppingCart(BaseShoppingCart):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 

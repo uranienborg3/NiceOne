@@ -1,6 +1,10 @@
 from abc import abstractmethod
 from selenium.common.exceptions import NoSuchElementException
 from .locators import HomePageLocators
+from .locators import BreadcrumbsLocators
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as ec
+from selenium.common.exceptions import TimeoutException
 
 
 class BasePage:
@@ -18,24 +22,25 @@ class BasePage:
             return False
         return True
 
+    def is_not_element_present(self, how, what, timeout=3):
+        try:
+            WebDriverWait(self.browser, timeout).until(ec.presence_of_element_located((how, what)))
+        except TimeoutException:
+            return True
+        return False
+
     @abstractmethod
     def _validate_page(self):
         """Must be implemented in each child class"""
         return
 
-    @property
-    def search(self):
-        from .search import SearchRegion
-        return SearchRegion(self.browser)
-
-    @property
-    def shopping_cart(self):
-        from .shopping_cart import ShoppingCartRegion
-        return ShoppingCartRegion(self.browser)
-
-    def click_logo(self):
+    def return_home_with_logo(self):
         logo = self.browser.find_element(*HomePageLocators.LOGO)
         logo.click()
+
+    def return_home_with_breadcrumb(self):
+        home = self.browser.find_element(*BreadcrumbsLocators.HOME_BREADCRUMB)
+        home.click()
 
 
 class InvalidPageException(Exception):
