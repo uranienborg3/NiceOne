@@ -28,8 +28,8 @@ class HomePage(BasePage):
         assert self.is_element_present(*HomePageLocators.LOGO), "Logo is not found"
 
     def shopping_cart_should_be_empty(self):
-        shopping_card_status = self.browser.find_element(*HomePageLocators.SHOPPING_CART_EMPTY).text
-        assert 'empty' in shopping_card_status, 'Shopping cart is not empty'
+        status = self.shopping_cart_status()
+        assert status == 0, 'Shopping cart is not empty'
 
     def breadcrumbs_should_disappear(self):
         self.is_not_element_present(*BreadcrumbsLocators.BREADCRUMBS)
@@ -47,9 +47,6 @@ class HomePage(BasePage):
         self.search_field.clear()
         self.search_field.send_keys(search_term)
         self.search_field.submit()
-
-    def open_shopping_cart(self):
-        self.shopping_cart.click()
 
     def _validate_page(self):
         """Implemented abstract method from BasePage to validate home page"""

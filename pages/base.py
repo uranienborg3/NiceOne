@@ -2,6 +2,7 @@ from abc import abstractmethod
 from selenium.common.exceptions import NoSuchElementException
 from .locators import HomePageLocators
 from .locators import BreadcrumbsLocators
+from .locators import ShoppingCartLocators
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import TimeoutException
@@ -14,6 +15,7 @@ class BasePage:
         self.browser = browser
         self.browser.implicitly_wait(timeout)
         self._validate_page()
+        self.shopping_cart = self.browser.find_element(*HomePageLocators.SHOPPING_CART)
 
     def is_element_present(self, how, what):
         try:
@@ -41,6 +43,20 @@ class BasePage:
     def return_home_with_breadcrumb(self):
         home = self.browser.find_element(*BreadcrumbsLocators.HOME_BREADCRUMB)
         home.click()
+
+    def open_shopping_cart(self):
+        self.shopping_cart.click()
+
+    def shopping_cart_status(self):
+        status = self.browser.find_element(*ShoppingCartLocators.SHOPPING_CART_STATUS)
+        if status.is_displayed() is False:
+            return 0
+        else:
+            return int(status.text)
+
+    def number_of_products_in_cart_should_be_as_expected(self, expected_number):
+        actual_number = self.shopping_cart_status()
+        assert expected_number == actual_number, "Something wrong in cart"
 
 
 class InvalidPageException(Exception):

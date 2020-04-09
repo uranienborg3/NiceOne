@@ -13,6 +13,7 @@ class HomePageLocators:
 class ShoppingCartLocators:
     SHOPPING_CART_EMPTY_MESSAGE = (By.CLASS_NAME, 'alert')
     SHOPPING_CART_HEADING = (By.ID, 'cart_title')
+    SHOPPING_CART_STATUS = (By.CSS_SELECTOR, ".shopping_cart span.ajax_cart_quantity")
 
 
 class BreadcrumbsLocators:
@@ -35,3 +36,12 @@ class SearchResultsLocators:
 class ProductPageLocators:
     PRODUCT_PICTURE = (By.ID, "bigpic")
     PRODUCT_TITLE = (By.XPATH, "//h1[@itemprop='name']")
+    CLOSE_PICTURE = (By.XPATH, "//a[@title='Close']")
+    ADD_TO_CART = (By.CSS_SELECTOR, "#add_to_cart button")
+
+
+class CartSummaryLocators:
+    SUCCESS_MESSAGE = (By.CSS_SELECTOR, "div.layer_cart_product > h2")
+    PRODUCT_TITLE_CART_LAYER = (By.ID, "layer_cart_product_title")
+    CART_SUMMARY_COUNTER_HEADER = (By.CSS_SELECTOR, "div.layer_cart_cart > h2 > span.ajax_cart_product_txt")
+    CART_SUMMARY_CROSS = (By.XPATH, '//span[@class="cross" and @title="Close window"]')

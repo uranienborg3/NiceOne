@@ -7,4 +7,5 @@ class TestHomePage:
         """"HomePage instance can be created, unchangeable elements present, search returns results"""
         home_page = HomePage(browser)
         home_page.unchangeable_elements_should_be_present()
+        home_page.shopping_cart_status()
         home_page.shopping_cart_should_be_empty()

@@ -27,6 +27,9 @@ class ShoppingCart(BaseShoppingCart):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+    def product_should_be_in_cart(self, product_name):
+        return
+
 
 class EmptyShoppingCart(BaseShoppingCart):
     def __init__(self, *args, **kwargs):
