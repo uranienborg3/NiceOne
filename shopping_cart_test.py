@@ -31,3 +31,5 @@ class TestShoppingCartHomePage:
         home_page = HomePage(browser)
         home_page.unchangeable_elements_should_be_present()
         home_page.breadcrumbs_should_disappear()
+
+# TODO: add non empty shopping cart tests

@@ -30,6 +30,8 @@ class ShoppingCart(BaseShoppingCart):
     def product_should_be_in_cart(self, product_name):
         return
 
+    # TODO: finish ShoppingCart class
+
 
 class EmptyShoppingCart(BaseShoppingCart):
     def __init__(self, *args, **kwargs):

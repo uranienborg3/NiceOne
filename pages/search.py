@@ -30,7 +30,7 @@ class BaseSearch(BasePage):
 
 class SearchResults(BaseSearch):
     _product_count = 0
-    _products = {}
+    _product_links = {}
     _product_names = {}
 
     def __init__(self, *args, **kwargs):
@@ -41,7 +41,7 @@ class SearchResults(BaseSearch):
         count = 0
         for product in results:
             count += 1
-            self._products[count] = product.find_element(*SearchResultsLocators.PRODUCT_LINK)
+            self._product_links[count] = product.find_element(*SearchResultsLocators.PRODUCT_LINK)
             self._product_names[count] = product.find_element(*SearchResultsLocators.PRODUCT_NAME).text
             self._product_count += 1
 
@@ -59,7 +59,7 @@ class SearchResults(BaseSearch):
         return self._product_names.get(product_number)
 
     def open_product_page(self, product_number):
-        self._products[product_number].click()
+        self._product_links[product_number].click()
 
 
 class EmptySearchResult(BaseSearch):

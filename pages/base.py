@@ -2,7 +2,6 @@ from abc import abstractmethod
 from selenium.common.exceptions import NoSuchElementException
 from .locators import HomePageLocators
 from .locators import BreadcrumbsLocators
-from .locators import ShoppingCartLocators
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import TimeoutException
@@ -16,6 +15,7 @@ class BasePage:
         self.browser.implicitly_wait(timeout)
         self._validate_page()
         self.shopping_cart = self.browser.find_element(*HomePageLocators.SHOPPING_CART)
+        self.search_field = self.browser.find_element(*HomePageLocators.SEARCH_FIELD)
 
     def is_element_present(self, how, what):
         try:
@@ -48,7 +48,7 @@ class BasePage:
         self.shopping_cart.click()
 
     def shopping_cart_status(self):
-        status = self.browser.find_element(*ShoppingCartLocators.SHOPPING_CART_STATUS)
+        status = self.browser.find_element(*HomePageLocators.SHOPPING_CART_STATUS)
         if status.is_displayed() is False:
             return 0
         else:
@@ -58,6 +58,19 @@ class BasePage:
         actual_number = self.shopping_cart_status()
         assert expected_number == actual_number, "Something wrong in cart"
 
+    def search_for(self, search_term):
+        self.search_field.clear()
+        self.search_field.send_keys(search_term)
+        self.search_field.submit()
+
+    def submit_empty_search_field(self):
+        self.search_field.clear()
+        self.search_field.submit()
+
+    def search_for_unavailable_product(self, search_term):
+        self.search_field.clear()
+        self.search_field.send_keys(search_term)
+        self.search_field.submit()
 
 class InvalidPageException(Exception):
     """This exception is thrown when the page is not found"""

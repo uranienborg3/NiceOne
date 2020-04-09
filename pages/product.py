@@ -62,3 +62,8 @@ class CartSummary(ProductPage):
         cross = self.browser.find_element(*CartSummaryLocators.CART_SUMMARY_CROSS)
         cross.click()
 
+    def _validate_page(self):
+        try:
+            self.browser.find_element(*CartSummaryLocators.CART_SUMMARY_COUNTER_HEADER)
+        except NoSuchElementException:
+            raise InvalidPageException('Product Summary not found')
