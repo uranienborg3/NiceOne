@@ -14,7 +14,7 @@ class BaseSearch(BasePage):
         assert self.header_counter == 0, "Header counter shows something weird"
 
     def search_should_be_in_breadcrumbs(self):
-        self.is_element_present(*BreadcrumbsLocators.SEARCH_BREADCRUMB)
+        assert self.is_element_present(*BreadcrumbsLocators.SEARCH_BREADCRUMB), "Search not in breadcrumbs"
 
     def _validate_page(self):
         WebDriverWait(self.browser, 5).until(ec.title_contains, 'Search')

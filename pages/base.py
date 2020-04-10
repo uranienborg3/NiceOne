@@ -72,6 +72,11 @@ class BasePage:
         self.search_field.send_keys(search_term)
         self.search_field.submit()
 
+    def go_to_sign_in(self):
+        sign_in_link = self.browser.find_element(*HomePageLocators.SIGN_IN_LINK)
+        sign_in_link.click()
+
+
 class InvalidPageException(Exception):
     """This exception is thrown when the page is not found"""
     pass

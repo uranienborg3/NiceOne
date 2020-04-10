@@ -6,7 +6,6 @@ class HomePageLocators:
     BANNER = (By.ID, "homeslider")
     SEARCH_FIELD = (By.ID, "search_query_top")
     SHOPPING_CART = (By.CSS_SELECTOR, 'div.shopping_cart a')
-    # SHOPPING_CART_EMPTY = (By.CSS_SELECTOR, 'div.shopping_cart span.ajax_cart_no_product')
     SHOPPING_CART_STATUS = (By.CSS_SELECTOR, ".shopping_cart span.ajax_cart_quantity")
     LOGO = (By.CSS_SELECTOR, 'img.logo.img-responsive')
     POPULAR_TAB = (By.CSS_SELECTOR, "#home-page-tabs a.homefeatured")
@@ -14,19 +13,25 @@ class HomePageLocators:
     PRODUCT_LIST = (By.CSS_SELECTOR, ".product_list.active li")
     PRODUCT_NAME = (By.CSS_SELECTOR, "a.product-name")
     PRODUCT_ADD_BUTTON = (By.CSS_SELECTOR, "a.button.ajax_add_to_cart_button")
-
+    SIGN_IN_LINK = (By.CLASS_NAME, "login")
 
 
 class ShoppingCartLocators:
     SHOPPING_CART_EMPTY_MESSAGE = (By.CLASS_NAME, 'alert')
     SHOPPING_CART_HEADING = (By.ID, 'cart_title')
+    SHOPPING_CART_STEPS = (By.ID, "order_step")
+    FIRST_STEP_CURRENT = (By.CSS_SELECTOR, "ul.step li.step_current.first span")
+    PRODUCT_NAME = (By.CSS_SELECTOR, "td.cart_description p.product-name a")
+    PROCEED_BUTTON = (By.XPATH, "//p[contains(@class, 'cart_navigation')]/a[@title='Proceed to checkout']")
 
 
 class BreadcrumbsLocators:
     BREADCRUMBS = (By.CLASS_NAME, 'breadcrumb')
-    SHOPPING_CART_BREADCRUMB = (By.XPATH, "//div[contains(@class, 'breadcrumb')]/span[contains(text(), 'cart')]bla")
+    SHOPPING_CART_BREADCRUMB = (By.XPATH, "//div[contains(@class, 'breadcrumb')]/span[contains(text(), 'cart')]")
     HOME_BREADCRUMB = (By.CSS_SELECTOR, '.breadcrumb a.home')
     SEARCH_BREADCRUMB = (By.XPATH, "//div[contains(@class, 'breadcrumb')]/span[text()='Search']")
+    AUTHENTICATION_BREADCRUMB = (By.XPATH,
+                                 "//div[contains(@class, 'breadcrumb')]/span[contains(text(), 'Authentication')]")
 
 
 class SearchResultsLocators:
@@ -51,3 +56,10 @@ class CartSummaryLocators:
     PRODUCT_TITLE_CART_LAYER = (By.ID, "layer_cart_product_title")
     CART_SUMMARY_COUNTER_HEADER = (By.CSS_SELECTOR, "div.layer_cart_cart > h2 > span.ajax_cart_product_txt")
     CART_SUMMARY_CROSS = (By.XPATH, '//span[@class="cross" and @title="Close window"]')
+    PROCEED_TO_CHECKOUT_BUTTON = (By.XPATH, "//a[@title='Proceed to checkout']")
+
+
+class SignInLocators:
+    CREATE_ACCOUNT_FORM = (By.ID, "create-account_form")
+    LOG_IN_FORM = (By.ID, "login_form")
+    AUTHENTICATION_HEADER = (By.CSS_SELECTOR, "h1.page-heading")

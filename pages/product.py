@@ -62,6 +62,10 @@ class CartSummary(ProductPage):
         cross = self.browser.find_element(*CartSummaryLocators.CART_SUMMARY_CROSS)
         cross.click()
 
+    def go_to_checkout(self):
+        button = self.browser.find_element(*CartSummaryLocators.PROCEED_TO_CHECKOUT_BUTTON)
+        button.click()
+
     def _validate_page(self):
         try:
             self.browser.find_element(*CartSummaryLocators.CART_SUMMARY_COUNTER_HEADER)

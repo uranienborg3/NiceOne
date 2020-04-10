@@ -15,12 +15,20 @@ class BaseShoppingCart(BasePage):
         if 'Order' not in self.browser.title:
             raise InvalidPageException('Shopping cart not loaded')
 
-    def should_be_header(self):
+    def should_be_shopping_cart_header(self):
         header = self.browser.find_element(*ShoppingCartLocators.SHOPPING_CART_HEADING).text
         assert 'SHOPPING-CART SUMMARY' == header, "Something wrong with header"
 
     def shopping_cart_should_be_in_breadcrumbs(self):
-        self.is_element_present(*BreadcrumbsLocators.SHOPPING_CART_BREADCRUMB)
+        assert self.is_element_present(*BreadcrumbsLocators.SHOPPING_CART_BREADCRUMB), \
+            "Shopping cart not in breadcrumbs"
+
+    def should_be_steps(self):
+        assert self.is_element_present(*ShoppingCartLocators.SHOPPING_CART_STEPS), "Steps not found"
+
+    def current_step_should_be_summary(self):
+        step = self.browser.find_element(*ShoppingCartLocators.FIRST_STEP_CURRENT).text
+        assert "Summary" in step, "First step is not summary"
 
 
 class ShoppingCart(BaseShoppingCart):
@@ -28,9 +36,17 @@ class ShoppingCart(BaseShoppingCart):
         super().__init__(*args, **kwargs)
 
     def product_should_be_in_cart(self, product_name):
-        return
+        name = self.product_name
+        assert product_name == name, "Product is not added to cart"
 
-    # TODO: finish ShoppingCart class
+    @property
+    def product_name(self):
+        name = self.browser.find_element(*ShoppingCartLocators.PRODUCT_NAME).text
+        return name
+
+    def proceed_to_sign_in(self):
+        button = self.browser.find_element(*ShoppingCartLocators.PROCEED_BUTTON)
+        button.click()
 
 
 class EmptyShoppingCart(BaseShoppingCart):
