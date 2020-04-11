@@ -34,7 +34,7 @@ class SignIn(BasePage):
         field.send_keys(email)
         field.submit()
 
-    def fill_in_name_and_password(self, name, surname, passwd):
+    def fill_in_info(self, name, surname, passwd, company, add_1, add_2, city, postcode, add_info, home_phone, mobile):
         gender_checkboxes = WebDriverWait(self.browser, 5).until(ec.presence_of_all_elements_located
                                                                  ((SignInLocators.GENDER_CHECKBOXES)))
         random.choice(gender_checkboxes).click()
@@ -44,13 +44,9 @@ class SignIn(BasePage):
         second_name_field.send_keys(surname)
         password = self._find(*SignInLocators.PASSWORD_FIELD)
         password.send_keys(passwd)
-
-    def set_birthday(self):
         self._get_random_option(*SignInLocators.BIRTH_YEAR)
         self._get_random_option(*SignInLocators.BIRTH_MONTH)
         self._get_random_option(*SignInLocators.BIRTH_DAY)
-
-    def fill_in_address_and_country(self, company, add_1, add_2, city, postcode):
         company_f = self._find(*SignInLocators.COMPANY_FIELD)
         company_f.send_keys(company)
         address_1 = self._find(*SignInLocators.FIRST_ADDRESS_FIELD)
@@ -62,8 +58,6 @@ class SignIn(BasePage):
         self._get_random_option(*SignInLocators.STATE_LIST)
         postcode_f = self._find(*SignInLocators.POSTCODE_FIELD)
         postcode_f.send_keys(postcode)
-
-    def fill_in_phone_and_add_info(self, add_info, home_phone, mobile):
         add_info_f = self._find(*SignInLocators.ADDITIONAL_INFO_FIELD)
         add_info_f.send_keys(add_info)
         home_phone_f = self._find(*SignInLocators.HOME_PHONE_FIELD)
