@@ -4,6 +4,7 @@ import json
 import datetime
 from pages.home_page import HomePage
 from pages.sign_in import SignIn
+from pages.account import AccountPage
 from faker import Faker
 
 
@@ -66,3 +67,7 @@ class TestSignIn:
         home_page.go_to_sign_in()
         sign_in_page = SignIn(browser)
         sign_in_page.sign_in(self.email, self.password)
+        account_page = AccountPage(browser)
+        account_page.return_home_with_logo()
+        home_page = HomePage(browser)
+        home_page.guest_should_be_logged_in()

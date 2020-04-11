@@ -14,6 +14,8 @@ class HomePageLocators:
     PRODUCT_NAME = (By.CSS_SELECTOR, "a.product-name")
     PRODUCT_ADD_BUTTON = (By.CSS_SELECTOR, "a.button.ajax_add_to_cart_button")
     SIGN_IN_LINK = (By.CLASS_NAME, "login")
+    ACCOUNT_LINK = (By.CLASS_NAME, "account")
+    SIGN_OUT_LINK = (By.CLASS_NAME, "logout")
 
 
 class ShoppingCartLocators:
@@ -84,3 +86,11 @@ class SignInLocators:
     SIGN_IN_EMAIL_FIELD = (By.ID, "email")
     SIGN_IN_PASSWORD_FIELD = (By.ID, "passwd")
     SIGN_IN_BUTTON = (By.ID, "SubmitLogin")
+
+
+class AccountLocators:
+    ORDERS_HISTORY_LINK = (By.XPATH, "//a[@title='Orders']")
+    CREDIT_SLIPS_LINK = (By.XPATH, "//a[@title='Credit slips']")
+    ADDRESSES_LINK = (By.XPATH, "//a[@title='Addresses']")
+    INFORMATION_LINK = (By.XPATH, "//a[@title='Information']")
+    WISHLISTS_LINK = (By.XPATH, "//a[@title='My wishlists']")

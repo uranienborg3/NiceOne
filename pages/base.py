@@ -76,6 +76,10 @@ class BasePage:
         sign_in_link = self.browser.find_element(*HomePageLocators.SIGN_IN_LINK)
         sign_in_link.click()
 
+    def guest_should_be_logged_in(self):
+        assert self.is_element_present(*HomePageLocators.ACCOUNT_LINK), "Account link not found"
+        assert self.is_element_present(*HomePageLocators.SIGN_OUT_LINK), "Sign out link not found"
+
 
 class InvalidPageException(Exception):
     """This exception is thrown when the page is not found"""
