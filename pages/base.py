@@ -31,6 +31,13 @@ class BasePage:
             return True
         return False
 
+    def is_disappeared(self, how, what, timeout=3):
+        try:
+            WebDriverWait(self.browser, timeout, 1, TimeoutException).until_not(ec.presence_of_element_located((how, what)))
+        except TimeoutException:
+            return False
+        return True
+
     @abstractmethod
     def _validate_page(self):
         """Must be implemented in each child class"""

@@ -94,3 +94,8 @@ class AccountLocators:
     ADDRESSES_LINK = (By.XPATH, "//a[@title='Addresses']")
     INFORMATION_LINK = (By.XPATH, "//a[@title='Information']")
     WISHLISTS_LINK = (By.XPATH, "//a[@title='My wishlists']")
+    WISHLIST = (By.ID, "block-history")
+    WISHLIST_NAME_FIELD = (By.ID, "name")
+    WISHLIST_SAVE_BUTTON = (By.ID, "submitWishlist")
+    WISHLIST_NAME = (By.XPATH, "//tr[contains(@id, 'wishlist')]/td[1]/a")
+    WISHLIST_DELETE_BUTTON = (By.XPATH, "//td[@class='wishlist_delete']/a")
