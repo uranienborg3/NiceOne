@@ -34,7 +34,7 @@ class SignIn(BasePage):
         field.send_keys(email)
         field.submit()
 
-    def fill_in_info(self, name, surname, passwd, company, add_1, add_2, city, postcode, add_info, home_phone, mobile):
+    def fill_in_info(self, name, surname, password, company, add_1, add_2, city, postcode, add_info, home_phone, mobile):
         gender_checkboxes = WebDriverWait(self.browser, 5).until(ec.presence_of_all_elements_located
                                                                  ((SignInLocators.GENDER_CHECKBOXES)))
         random.choice(gender_checkboxes).click()
@@ -42,8 +42,8 @@ class SignIn(BasePage):
         first_name_field.send_keys(name)
         second_name_field = self._find(*SignInLocators.SECOND_NAME_FIELD)
         second_name_field.send_keys(surname)
-        password = self._find(*SignInLocators.PASSWORD_FIELD)
-        password.send_keys(passwd)
+        password_f = self._find(*SignInLocators.PASSWORD_FIELD)
+        password_f.send_keys(password)
         self._get_random_option(*SignInLocators.BIRTH_YEAR)
         self._get_random_option(*SignInLocators.BIRTH_MONTH)
         self._get_random_option(*SignInLocators.BIRTH_DAY)
@@ -73,8 +73,8 @@ class SignIn(BasePage):
     def sign_in(self, email, password):
         email_f = self._find(*SignInLocators.SIGN_IN_EMAIL_FIELD)
         email_f.send_keys(email)
-        passwd_f = self._find(*SignInLocators.SIGN_IN_PASSWORD_FIELD)
-        passwd_f.send_keys(password)
+        password_f = self._find(*SignInLocators.SIGN_IN_PASSWORD_FIELD)
+        password_f.send_keys(password)
         button = self._find(*SignInLocators.SIGN_IN_BUTTON)
         button.click()
 
