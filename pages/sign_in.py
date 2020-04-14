@@ -1,4 +1,3 @@
-import time
 import random
 from .base import BasePage
 from .base import InvalidPageException
@@ -15,6 +14,7 @@ class SignIn(BasePage):
         super().__init__(*args, **kwargs)
 
     def _validate_page(self):
+        """checks if there is create account and log in forms"""
         try:
             self.browser.find_element(*SignInLocators.CREATE_ACCOUNT_FORM)
             self.browser.find_element(*SignInLocators.LOG_IN_FORM)
@@ -22,19 +22,25 @@ class SignIn(BasePage):
             raise InvalidPageException("Sign page not found")
 
     def should_be_authentication_header(self):
+        """checks if page has authentication header"""
         header = self.browser.find_element(*SignInLocators.AUTHENTICATION_HEADER).text
         assert "AUTHENTICATION" == header, "Authentication header is not correct"
 
     def authentication_should_be_in_breadcrumbs(self):
+        """checks if authentication is followed in breadcrumbs"""
         assert self.is_element_present(*BreadcrumbsLocators.AUTHENTICATION_BREADCRUMB),\
             "Authentication not in breadcrumb"
 
     def enter_email(self, email):
+        """find email fields and sends email into it provided as argument"""
         field = self._find(*SignInLocators.EMAIL_FIELD)
         field.send_keys(email)
         field.submit()
 
-    def fill_in_info(self, name, surname, password, company, add_1, add_2, city, postcode, add_info, home_phone, mobile):
+    def fill_in_info(self, name, surname, password, company, add_1, add_2,
+                     city, postcode, add_info, home_phone, mobile):
+        """takes credentials as arguments and submits all of them
+        into corresponding fields"""
         gender_checkboxes = WebDriverWait(self.browser, 5).until(ec.presence_of_all_elements_located
                                                                  ((SignInLocators.GENDER_CHECKBOXES)))
         random.choice(gender_checkboxes).click()
@@ -64,13 +70,14 @@ class SignIn(BasePage):
         home_phone_f.send_keys(home_phone)
         mobile_f = self._find(*SignInLocators.MOBILE_FIELD)
         mobile_f.send_keys(mobile)
-        time.sleep(4)
 
     def register_account(self):
+        """submits credentials and creates account"""
         button = self._find(*SignInLocators.SUBMIT_BUTTON)
         button.click()
 
     def sign_in(self, email, password):
+        """takes registered email and password and submits"""
         email_f = self._find(*SignInLocators.SIGN_IN_EMAIL_FIELD)
         email_f.send_keys(email)
         password_f = self._find(*SignInLocators.SIGN_IN_PASSWORD_FIELD)
@@ -79,10 +86,12 @@ class SignIn(BasePage):
         button.click()
 
     def _get_random_option(self, how, what):
+        """chooses random option from the list of options of a select element"""
         select_element = Select(self.browser.find_element(how, what))
         options = select_element.options
         select_element.select_by_index(random.randint(1, len(options)-1))
 
     def _find(self, how, what):
+        """takes a method and a locator and returns the element"""
         element = self.browser.find_element(how, what)
         return element

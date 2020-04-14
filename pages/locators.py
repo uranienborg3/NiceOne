@@ -19,6 +19,7 @@ class HomePageLocators:
 
 
 class ShoppingCartLocators:
+    """Locators connected to shopping cart"""
     SHOPPING_CART_EMPTY_MESSAGE = (By.CLASS_NAME, 'alert')
     SHOPPING_CART_HEADING = (By.ID, 'cart_title')
     SHOPPING_CART_STEPS = (By.ID, "order_step")
@@ -28,6 +29,7 @@ class ShoppingCartLocators:
 
 
 class BreadcrumbsLocators:
+    """Breadcrumbs locators"""
     BREADCRUMBS = (By.CLASS_NAME, 'breadcrumb')
     SHOPPING_CART_BREADCRUMB = (By.XPATH, "//div[contains(@class, 'breadcrumb')]/span[contains(text(), 'cart')]")
     HOME_BREADCRUMB = (By.CSS_SELECTOR, '.breadcrumb a.home')
@@ -47,6 +49,7 @@ class SearchResultsLocators:
 
 
 class ProductPageLocators:
+    """Product page Locators"""
     PRODUCT_PICTURE = (By.ID, "bigpic")
     PRODUCT_TITLE = (By.XPATH, "//h1[@itemprop='name']")
     CLOSE_PICTURE = (By.XPATH, "//a[@title='Close']")
@@ -54,6 +57,7 @@ class ProductPageLocators:
 
 
 class CartSummaryLocators:
+    """Cart summary locators"""
     SUCCESS_MESSAGE = (By.CSS_SELECTOR, "div.layer_cart_product > h2")
     PRODUCT_TITLE_CART_LAYER = (By.ID, "layer_cart_product_title")
     CART_SUMMARY_COUNTER_HEADER = (By.CSS_SELECTOR, "div.layer_cart_cart > h2 > span.ajax_cart_product_txt")
@@ -62,6 +66,7 @@ class CartSummaryLocators:
 
 
 class SignInLocators:
+    """Sign in page locators"""
     CREATE_ACCOUNT_FORM = (By.ID, "create-account_form")
     LOG_IN_FORM = (By.ID, "login_form")
     AUTHENTICATION_HEADER = (By.CSS_SELECTOR, "h1.page-heading")
@@ -89,6 +94,7 @@ class SignInLocators:
 
 
 class AccountLocators:
+    """My account page locators"""
     ORDERS_HISTORY_LINK = (By.XPATH, "//a[@title='Orders']")
     CREDIT_SLIPS_LINK = (By.XPATH, "//a[@title='Credit slips']")
     ADDRESSES_LINK = (By.XPATH, "//a[@title='Addresses']")

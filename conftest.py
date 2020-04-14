@@ -10,9 +10,10 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 
 
-# @pytest.fixture(scope='class')
 @pytest.fixture(scope="function")
 def browser():
+    """opens the browser at the beginning of a test
+    and closes at the end of a test"""
     print('\nstarting Chrome..')
     browser = webdriver.Chrome()
     browser.maximize_window()
@@ -24,6 +25,8 @@ def browser():
 
 @pytest.fixture(scope="function")
 def register():
+    """creates credentials for registering a user
+    and saves them into a json file"""
     fake = Faker()
     data = {"email": str(random.randint(1, 100)) + fake.email(),
             "name": fake.first_name(),
@@ -44,6 +47,8 @@ def register():
 
 @pytest.fixture(scope="function")
 def get_credentials():
+    """loads credentials from json file
+    returns email and password for signing in"""
     with open("test_data_20200411_212033.json") as f:
         data = json.load(f)
     email = data.get('email')
@@ -53,6 +58,7 @@ def get_credentials():
 
 @pytest.fixture(scope="function")
 def sign_in(browser, get_credentials):
+    """gets credentials and signs the user in"""
     email, password = get_credentials
     browser.find_element(*HomePageLocators.SIGN_IN_LINK).click()
     email_f = WebDriverWait(browser, 5).until(ec.presence_of_element_located((SignInLocators.SIGN_IN_EMAIL_FIELD)))
