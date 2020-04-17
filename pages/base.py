@@ -17,6 +17,7 @@ class BasePage:
         self._validate_page()  # method is implemented for each class that inherits from this
         self.shopping_cart = self.browser.find_element(*HomePageLocators.SHOPPING_CART)
         self.search_field = self.browser.find_element(*HomePageLocators.SEARCH_FIELD)
+        self.search_button = self.browser.find_element(*HomePageLocators.SEARCH_BUTTON)
 
     def is_element_present(self, how, what):
         """returns True if driver can find element on page
@@ -88,12 +89,12 @@ class BasePage:
         the string passed as an argument into the search field"""
         self.search_field.clear()
         self.search_field.send_keys(search_term)
-        self.search_field.submit()
+        self.search_button.click()
 
     def submit_empty_search_field(self):
         """finds and submits the empty search field"""
         self.search_field.clear()
-        self.search_field.submit()
+        self.search_button.click()
 
     def go_to_sign_in(self):
         """finds sign in link and clicks it"""

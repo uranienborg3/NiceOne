@@ -81,6 +81,8 @@ class HomePage(BasePage):
     def add_product_to_cart(self, number):
         """hovers over the product which number is provided as argument and adds it to cart"""
         product_to_hover_over = self.products[number - 1]  # get product block from the list
+        self.browser.execute_script("return arguments[0].scrollIntoView(true);", product_to_hover_over)
+        # button = self._product_add_buttons.get(number)
         hover = ActionChains(self.browser).move_to_element(product_to_hover_over)  # create hover action
         hover.perform()
         button = self._product_add_buttons.get(number)  # get the add button from the list

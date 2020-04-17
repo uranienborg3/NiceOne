@@ -4,6 +4,7 @@ from .base import BasePage
 from .base import InvalidPageException
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.action_chains import ActionChains
 
 
 class BaseSearch(BasePage):
@@ -23,7 +24,7 @@ class BaseSearch(BasePage):
 
     def _validate_page(self):
         """checks if title of the page contain 'Search'"""
-        WebDriverWait(self.browser, 5).until(ec.title_contains, 'Search')
+        WebDriverWait(self.browser, 10, 1).until(ec.title_contains, 'Search')
         if 'Search' not in self.browser.title:
             raise InvalidPageException("Search results not loaded on the page")
 
@@ -45,10 +46,10 @@ class SearchResults(BaseSearch):
         """need to wait before the page is fully loaded"""
         super().__init__(*args, **kwargs)
         WebDriverWait(self.browser, 10).until(lambda b: b.execute_script("return document.readyState") == "complete")
-        results = self.browser.find_elements(*SearchResultsLocators.PRODUCT_LIST)  # find all product elements
-        assert len(results) > 0, "No results found"  # check if the list is empty, it should not be
+        self.results = self.browser.find_elements(*SearchResultsLocators.PRODUCT_LIST)  # find all product elements
+        assert len(self.results) > 0, "No results found"  # check if the list is empty, it should not be
         count = 0
-        for product in results:
+        for product in self.results:
             count += 1
             self._product_links[count] = product.find_element(*SearchResultsLocators.PRODUCT_LINK)
             self._product_names[count] = product.find_element(*SearchResultsLocators.PRODUCT_NAME).text
@@ -74,7 +75,11 @@ class SearchResults(BaseSearch):
 
     def open_product_page(self, product_number):
         """opens the product, number of which is passed as argument"""
-        self._product_links[product_number].click()
+        product = self.results[product_number - 1]  # get product block
+        hover = ActionChains(self.browser).move_to_element(product)  # create hover action
+        hover.perform()
+        button = self._product_links.get(product_number)  # find a more button
+        button.click()
 
 
 class EmptySearchResult(BaseSearch):

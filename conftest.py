@@ -10,16 +10,26 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 
 
+def pytest_addoption(parser):
+    parser.addoption('--browser', action='store', default='chrome', help='choose browser: firefox/chrome')
+
+
 @pytest.fixture(scope="function")
-def browser():
+def browser(request):
     """opens the browser at the beginning of a test
     and closes at the end of a test"""
-    print('\nstarting Chrome..')
-    browser = webdriver.Chrome()
+    browser_name = request.config.getoption('browser')
+    # browser = None
+    if browser_name == 'firefox':
+        print('\nstarting Firefox..')
+        browser = webdriver.Firefox()
+    else:
+        print('\nstarting Chrome..')
+        browser = webdriver.Chrome()
     browser.maximize_window()
     browser.get('http://automationpractice.com/index.php')
     yield browser
-    print('\nclosing Chrome..')
+    print('\nclosing browser..')
     browser.quit()
 
 
