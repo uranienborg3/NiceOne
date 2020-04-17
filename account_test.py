@@ -18,6 +18,7 @@ class TestAccount:
         home_page = HomePage(browser)
         home_page.guest_should_be_logged_in()  # check if the user is signed in
 
+    @pytest.mark.account
     @pytest.mark.wishlist
     def test_guest_can_create_wishlist(self, browser, sign_in):
         """create a wishlist
@@ -25,9 +26,10 @@ class TestAccount:
         account = AccountPage(browser)
         account.go_to_wishlist()  # go to wishlists
         account.wishlist_should_be_empty()  # wishlists should be empty
-        account.create_wishlist('test')  # creare a wishlist named 'test'
+        account.create_wishlist('test')  # create a wishlist named 'test'
         account.there_should_be_wishlist()  # check if the wishlist is saved
 
+    @pytest.mark.account
     @pytest.mark.wishlist
     def test_guest_can_delete_wishlist(self, browser, sign_in):
         """delete previously created list

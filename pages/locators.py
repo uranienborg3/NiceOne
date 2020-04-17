@@ -10,12 +10,13 @@ class HomePageLocators:
     LOGO = (By.CSS_SELECTOR, 'img.logo.img-responsive')
     POPULAR_TAB = (By.CSS_SELECTOR, "#home-page-tabs a.homefeatured")
     BEST_SELLERS_TAB = (By.CSS_SELECTOR, "#home-page-tabs a.blockbestsellers")
-    PRODUCT_LIST = (By.CSS_SELECTOR, ".product_list.active li")
+    PRODUCT_LIST = (By.CSS_SELECTOR, ".product_list.active li div.product-container")
     PRODUCT_NAME = (By.CSS_SELECTOR, "a.product-name")
     PRODUCT_ADD_BUTTON = (By.CSS_SELECTOR, "a.button.ajax_add_to_cart_button")
     SIGN_IN_LINK = (By.CLASS_NAME, "login")
     ACCOUNT_LINK = (By.CLASS_NAME, "account")
     SIGN_OUT_LINK = (By.CLASS_NAME, "logout")
+    SEARCH_BUTTON = (By.CSS_SELECTOR, "button.button-search")
 
 
 class ShoppingCartLocators:
@@ -43,7 +44,8 @@ class SearchResultsLocators:
     PRODUCT_LIST = (By.CSS_SELECTOR, "ul.product_list > li")
     PRODUCT_LINK_LIST = (By.CSS_SELECTOR, "ul.product_list > li")
     PRODUCT_NAME = (By.CSS_SELECTOR, "h5 a.product-name")
-    PRODUCT_LINK = (By.CSS_SELECTOR, "a.product_img_link")
+    # PRODUCT_LINK = (By.CSS_SELECTOR, "a.product_img_link")
+    PRODUCT_LINK = (By.CSS_SELECTOR, "a.button.lnk_view")
     SEARCH_ERROR_MESSAGE = (By.CSS_SELECTOR, 'p.alert.alert-warning')
     HEADING_COUNTER = (By.CSS_SELECTOR, 'span.heading-counter')
 
