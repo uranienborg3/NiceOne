@@ -42,16 +42,16 @@ def register():
             "name": fake.first_name(),
             "surname": fake.last_name(),
             "password": fake.password(length=5, special_chars=False),
+            "company": fake.company(),
             "address_1": fake.street_address(),
             "address_2": fake.secondary_address(),
             "city": fake.city(),
             "postcode": fake.postcode(),
-            "company": fake.company(),
-            "mobile": "+1" + str(random.random())[-10:],
+            "add_info": fake.sentence(nb_words=10),
             "home_phone": "+1" + str(random.random())[-10:],
-            "add_info": fake.sentence(nb_words=10)}
+            "mobile": "+1" + str(random.random())[-10:]}
     with open("test_data_" + datetime.datetime.now().strftime('%Y%m%d_%H%M%S') + ".json", "w") as f:
-        json.dump(data, f, sort_keys=True, indent=2)
+        json.dump(data, f, indent=2)
     return data
 
 
@@ -59,7 +59,7 @@ def register():
 def get_credentials():
     """loads credentials from json file
     returns email and password for signing in"""
-    with open("test_data_20200411_212033.json") as f:
+    with open("test_data_20200419_145040.json") as f:
         data = json.load(f)
     email = data.get('email')
     password = data.get('password')

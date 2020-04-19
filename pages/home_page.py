@@ -1,7 +1,7 @@
-from .base import BasePage
-from .base import InvalidPageException
-from .locators import HomePageLocators
-from .locators import BreadcrumbsLocators
+from pages.base import BasePage
+from pages.base import InvalidPageException
+from pages.locators import HomePageLocators
+from pages.locators import BreadcrumbsLocators
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.action_chains import ActionChains
 

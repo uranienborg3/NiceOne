@@ -1,7 +1,7 @@
-from .locators import SearchResultsLocators
-from .locators import BreadcrumbsLocators
-from .base import BasePage
-from .base import InvalidPageException
+from pages.locators import SearchResultsLocators
+from pages.locators import BreadcrumbsLocators
+from pages.base import BasePage
+from pages.base import InvalidPageException
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.action_chains import ActionChains

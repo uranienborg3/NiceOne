@@ -14,7 +14,7 @@ class BasePage:
         """takes a WebDriver instance"""
         self.browser = browser
         self.browser.implicitly_wait(timeout)
-        self._validate_page()  # method is implemented for each class that inherits from this
+        self._validate_page()  # method is implemented in each class that inherits from this
         self.shopping_cart = self.browser.find_element(*HomePageLocators.SHOPPING_CART)
         self.search_field = self.browser.find_element(*HomePageLocators.SEARCH_FIELD)
         self.search_button = self.browser.find_element(*HomePageLocators.SEARCH_BUTTON)

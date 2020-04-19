@@ -1,8 +1,8 @@
 import random
-from .base import BasePage
-from .base import InvalidPageException
-from .locators import SignInLocators
-from .locators import BreadcrumbsLocators
+from pages.base import BasePage
+from pages.base import InvalidPageException
+from pages.locators import SignInLocators
+from pages.locators import BreadcrumbsLocators
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
@@ -28,7 +28,7 @@ class SignIn(BasePage):
 
     def authentication_should_be_in_breadcrumbs(self):
         """checks if authentication is followed in breadcrumbs"""
-        assert self.is_element_present(*BreadcrumbsLocators.AUTHENTICATION_BREADCRUMB),\
+        assert self.is_element_present(*BreadcrumbsLocators.AUTHENTICATION_BREADCRUMB), \
             "Authentication not in breadcrumb"
 
     def enter_email(self, email):
@@ -37,39 +37,39 @@ class SignIn(BasePage):
         field.send_keys(email)
         field.submit()
 
-    def fill_in_info(self, name, surname, password, company, add_1, add_2,
-                     city, postcode, add_info, home_phone, mobile):
+    def fill_in_info(self, **kwargs):
         """takes credentials as arguments and submits all of them
         into corresponding fields"""
         gender_checkboxes = WebDriverWait(self.browser, 5).until(ec.presence_of_all_elements_located
                                                                  ((SignInLocators.GENDER_CHECKBOXES)))
         random.choice(gender_checkboxes).click()
-        first_name_field = self._find(*SignInLocators.FIRST_NAME_FIELD)
-        first_name_field.send_keys(name)
-        second_name_field = self._find(*SignInLocators.SECOND_NAME_FIELD)
-        second_name_field.send_keys(surname)
-        password_f = self._find(*SignInLocators.PASSWORD_FIELD)
-        password_f.send_keys(password)
-        self._get_random_option(*SignInLocators.BIRTH_YEAR)
-        self._get_random_option(*SignInLocators.BIRTH_MONTH)
-        self._get_random_option(*SignInLocators.BIRTH_DAY)
-        company_f = self._find(*SignInLocators.COMPANY_FIELD)
-        company_f.send_keys(company)
-        address_1 = self._find(*SignInLocators.FIRST_ADDRESS_FIELD)
-        address_1.send_keys(add_1)
-        address_2 = self._find(*SignInLocators.SECOND_ADDRESS_FIELD)
-        address_2.send_keys(add_2)
-        city_f = self._find(*SignInLocators.CITY_FIELD)
-        city_f.send_keys(city)
-        self._get_random_option(*SignInLocators.STATE_LIST)
-        postcode_f = self._find(*SignInLocators.POSTCODE_FIELD)
-        postcode_f.send_keys(postcode)
-        add_info_f = self._find(*SignInLocators.ADDITIONAL_INFO_FIELD)
-        add_info_f.send_keys(add_info)
-        home_phone_f = self._find(*SignInLocators.HOME_PHONE_FIELD)
-        home_phone_f.send_keys(home_phone)
-        mobile_f = self._find(*SignInLocators.MOBILE_FIELD)
-        mobile_f.send_keys(mobile)
+        # make a list of all necessary fields in correct order
+        field_locators = [SignInLocators.FIRST_NAME_FIELD,
+                          SignInLocators.SECOND_NAME_FIELD,
+                          SignInLocators.PASSWORD_FIELD,
+                          SignInLocators.COMPANY_FIELD,
+                          SignInLocators.FIRST_ADDRESS_FIELD,
+                          SignInLocators.SECOND_ADDRESS_FIELD,
+                          SignInLocators.CITY_FIELD,
+                          SignInLocators.POSTCODE_FIELD,
+                          SignInLocators.ADDITIONAL_INFO_FIELD,
+                          SignInLocators.HOME_PHONE_FIELD,
+                          SignInLocators.MOBILE_FIELD]
+        # make a list of credentials
+        values = [value for value in kwargs.values()]
+        # delete the first. because it is email and it was sent in previous step
+        del values[0]
+        # run a loop through 2 lists
+        for (field_locator, value) in zip(field_locators, values):
+            # find a field with a provided locator
+            field = self._find(*field_locator)
+            # send provided value into the field
+            field.send_keys(value)
+        # run a loop through a list of select lists locators
+        for locator in [SignInLocators.BIRTH_YEAR, SignInLocators.BIRTH_MONTH, SignInLocators.BIRTH_DAY,
+                        SignInLocators.STATE_LIST]:
+            # choose any option in select list
+            self._get_random_option(*locator)
 
     def register_account(self):
         """submits credentials and creates account"""
@@ -78,20 +78,20 @@ class SignIn(BasePage):
 
     def sign_in(self, email, password):
         """takes registered email and password and submits"""
-        email_f = self._find(*SignInLocators.SIGN_IN_EMAIL_FIELD)
+        email_f = self.browser.find_element(*SignInLocators.SIGN_IN_EMAIL_FIELD)
         email_f.send_keys(email)
-        password_f = self._find(*SignInLocators.SIGN_IN_PASSWORD_FIELD)
+        password_f = self.browser.find_element(*SignInLocators.SIGN_IN_PASSWORD_FIELD)
         password_f.send_keys(password)
-        button = self._find(*SignInLocators.SIGN_IN_BUTTON)
+        button = self.browser.find_element(*SignInLocators.SIGN_IN_BUTTON)
         button.click()
 
     def _get_random_option(self, how, what):
         """chooses random option from the list of options of a select element"""
         select_element = Select(self.browser.find_element(how, what))
         options = select_element.options
-        select_element.select_by_index(random.randint(1, len(options)-1))
+        select_element.select_by_index(random.randint(1, len(options) - 1))
 
     def _find(self, how, what):
         """takes a method and a locator and returns the element"""
-        element = self.browser.find_element(how, what)
+        element = WebDriverWait(self.browser, 3).until(ec.element_to_be_clickable((how, what)))
         return element
