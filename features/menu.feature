@@ -7,5 +7,5 @@ Feature: Menu navigation
 Scenario: Navigate to a category of products
    Given  I can see menu on the home page
     When  I hover over Women in menu
-     and  I click T-shirts
+     And  I click T-shirts
     Then  I can see products of this category

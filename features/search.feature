@@ -7,7 +7,7 @@ Feature: Search for an item
 Scenario Outline: Search for an item
            Given  I am on the home page
             When  I enter <term> into search field
-             and  I click search button
+             And  I click search button
             Then  I can see <number> search results
 
 Examples: By category
