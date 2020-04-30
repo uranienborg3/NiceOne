@@ -3,6 +3,7 @@ from pages.home_page import HomePage
 from pages.shopping_cart import EmptyShoppingCart
 from pages.shopping_cart import ShoppingCart
 from pages.product import CartSummary
+from pages.sign_in import SignIn
 
 
 class TestShoppingCart:
@@ -44,6 +45,7 @@ class TestShoppingCart:
         home_page.unchangeable_elements_should_be_present()  # check ui elements on home page
         home_page.breadcrumbs_should_disappear()  # check if breadcrumbs have disappeared
 
+    @pytest.mark.cart
     def test_can_see_product_in_shopping_cart(self, browser):
         """add product to cart"""
         home_page = HomePage(browser)  # open home page
@@ -63,3 +65,16 @@ class TestShoppingCart:
         summary.go_to_checkout()  # click 'Go to checkout' in the short cart summary
         shopping_cart = ShoppingCart(browser)
         shopping_cart.proceed_to_sign_in()  # click 'Proceed to sign in' on the shopping cart page
+
+    @pytest.mark.xfail(reason="This is to fail, but it passes")
+    @pytest.mark.cart
+    def test_can_add_product_and_then_sign_in(self, browser, get_credentials):
+        """proceed to sign in from shopping cart"""
+        home_page = HomePage(browser)
+        home_page.add_product_to_cart(6)  # add product No3 on home page to cart
+        summary = CartSummary(browser)
+        summary.go_to_checkout()  # click 'Go to checkout' in the short cart summary
+        shopping_cart = ShoppingCart(browser)
+        shopping_cart.proceed_to_sign_in()  # click 'Proceed to sign in' on the shopping cart page
+        sign_in_page = SignIn(browser)
+        sign_in_page.sign_in(*get_credentials)

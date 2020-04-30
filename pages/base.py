@@ -1,7 +1,7 @@
 from abc import abstractmethod
 from selenium.common.exceptions import NoSuchElementException
-from .locators import HomePageLocators
-from .locators import BreadcrumbsLocators
+from pages.locators import HomePageLocators
+from pages.locators import BreadcrumbsLocators
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import TimeoutException
