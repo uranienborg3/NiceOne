@@ -37,3 +37,21 @@ class TestHomePage:
         summary.close_cart_summary()  # click "close" on short cart summary
         home_page = HomePage(browser)
         home_page.number_of_products_in_cart_should_be_as_expected(1)  # compare number of items in cart with expected
+
+    @pytest.mark.xfail(raises=IndexError)
+    @pytest.mark.home
+    def test_guest_can_change_tabs_and_add_product_to_cart_from_home_page(self, browser):
+        """add a product to the cart from home page"""
+        home_page = HomePage(browser)
+        # make a list of current products, change tab,
+        # make another list and compare two lists
+        home_page.change_to_best_sellers_tab()
+        name = home_page.get_product_name(10)  # get product No1 name
+        home_page.add_product_to_cart(10)  # hover over product area and click "add to cart"
+        summary = CartSummary(browser)
+        # check if names match with short cart summary and count is as expected
+        # takes expected product name argument and expected count
+        summary.product_is_added_to_cart(name, 1)
+        summary.close_cart_summary()  # click "close" on short cart summary
+        home_page = HomePage(browser)
+        home_page.number_of_products_in_cart_should_be_as_expected(1)  # compare number of items in cart with expected

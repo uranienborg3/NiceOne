@@ -40,8 +40,8 @@ class SignIn(BasePage):
     def fill_in_info(self, **kwargs):
         """takes credentials as arguments and submits all of them
         into corresponding fields"""
-        gender_checkboxes = WebDriverWait(self.browser, 5).until(ec.presence_of_all_elements_located
-                                                                 ((SignInLocators.GENDER_CHECKBOXES)))
+        gender_checkboxes = WebDriverWait(self.browser, 5).until(
+            ec.presence_of_all_elements_located((SignInLocators.GENDER_CHECKBOXES)))
         random.choice(gender_checkboxes).click()
         # make a list of all necessary fields in correct order
         field_locators = [SignInLocators.FIRST_NAME_FIELD,
